@@ -40,6 +40,9 @@ window.addEventListener('success', event => {
     setTimeout(() => {
         $('.alert-dismissible').remove()
     }, 3000)
+    setTimeout(() => {
+
+    }, 3000)
 
 })
 </script>
