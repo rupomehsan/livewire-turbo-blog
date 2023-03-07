@@ -31,7 +31,7 @@ class HomeController extends Controller
     }
     public function blogDetails($id)
     {
-        $blog = Blog::where("id", $id)->first();
-        return view('landing.blog.blog-details', compact('blog'));
+        $blogDetails = Blog::where("id", $id)->first();
+        return view('landing.blog.blog-details', compact('blogDetails'));
     }
 }

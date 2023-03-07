@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class BlogDetailsComponent extends Component
 {
 
-    public $name, $comment, $blog_id;
+    public $name, $comment, $blog_id,$blogDetails;
 
     protected $rules = [
         'name' => 'required',
@@ -17,16 +17,17 @@ class BlogDetailsComponent extends Component
         'blog_id' => 'required',
     ];
 
-    public function mount()
+    public function mount($blogDetails)
     {
-        $this->blog_id;
+        $this->blogDetails = $blogDetails;
+        $this->blog_id = $this->blogDetails->id;
+
     }
 
     public function resetInputData()
     {
         $this->name = '';
         $this->comment = '';
-        $this->blog_id = '';
     }
 
     public function submitComments()
@@ -35,13 +36,14 @@ class BlogDetailsComponent extends Component
         $validateData = $this->validate();
         Comments::create($validateData);
         session()->flash('message', 'Comment Successfully create');
-        $this->resetInputData();
+         $this->resetInputData();
         $this->dispatchBrowserEvent('success');
+        $this->render();
     }
 
     public function render()
     {
-
-        return view('livewire.component.blog-details-component');
+        $blogComments = Comments::where('blog_id',$this->blog_id)->get();
+        return view('livewire.component.blog-details-component',['blogComments'=>$blogComments,"blogDetails"=>$this->blogDetails]);
     }
 }
